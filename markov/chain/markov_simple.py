@@ -66,7 +66,9 @@ class markov_chain:
         except KeyError:
             raise StopIteration
         # todo need to make this variable
-        self.current_state = (self.current_state[1], next_item)
+        new_state = list(self.current_state[1:])
+        new_state.append(next_item)
+        self.current_state = tuple(new_state)
         return next_item
 
     def __contains__(self, item):

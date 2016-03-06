@@ -1,40 +1,29 @@
 from markov.chain.markov_simple import markov_chain
 
+# As you can see this program isn't particularly interesting.
+# That's because the text is incredibly short, and there is
+# no repition.
 
 
-s = "Elderly man’s fishing net hangs in his shed \
-The fish he caught in his backyard stream multiply \
-Net use was banned; he couldn’t afford a pole \
-Joy and sustenance gone, a tear falls from his eye \
-House Bill 875 would ban backyard farms \
-Forcing vegetable growers to invest cash \
-In overpriced produce on supermarket shelves \
-Uncle Sam flexes his muscle, makes his whip lash \
-The right to freely worship is endangered \
-As prayer is prohibited in public schools \
-Government intrusion invades all our lives \
-Public pleas are not heard by those who make rules \
-Freedom to choose our doctors is now threatened \
-Socialized medicine diminishes choice \
-Speech censorship? Just ask the Smothers Brothers \
-Who canceled their own show with a stifled voice \
-As crime escalates, look to the constitution \
-The NRA spends billions to protect Americans' rights \
-To bear arms against oppressors while thieves laugh \
-And sue owners of homes invaded in the night \
-Can this be what our forefathers had in mind \
-When they sought to escape a king’s tyranny? \
-Our rights are being limited more each day \
-In a nation spawned to promote liberty \
-Natural disasters prelude Judgment Day \
-Eerie escalation – tsunamis, earthquakes \
-But perhaps when the dust finally settles \
-Those who survive will learn from our past mistakes \
-Governments will form only to preserve peace \
-Not to strip away rights ancestors pursued \
-Don’t blink!  Precious freedoms are now endangered \
-By those who feel they’re elected to intrude".split()
+s = "Be patient, gentlemen. I choose her for myself; \
+    If she and I be pleas'd, what's that to you? \
+    'Tis bargain'd 'twixt us twain, being alone, \
+    That she shall still be curst in company. \
+    I tell you 'tis incredible to believe. \
+    How much she loves me- O, the kindest Kate! \
+    She hung about my neck, and kiss on kiss \
+    She vied so fast, protesting oath on oath, \
+    That in a twink she won me to her love. \
+    O, you are novices! 'Tis a world to see, \
+    How tame, when men and women are alone, \
+    A meacock wretch can make the curstest shrew. \
+    Give me thy hand, Kate; I will unto Venice, \
+    To buy apparel 'gainst the wedding-day. \
+    Provide the feast, father, and bid the guests; \
+    I will be sure my Katherine shall be fine.".split()
 
 chain = markov_chain(s, 2)
 chain.random_state()
-print(chain.predict(15))
+print(" ".join(chain.predict(15)))
+print(chain.random_state())
+print(" ".join(chain.predict(35)))
