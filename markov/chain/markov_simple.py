@@ -65,7 +65,6 @@ class markov_chain:
             next_item = self[self.current_state]
         except KeyError:
             raise StopIteration
-        # todo need to make this variable
         new_state = list(self.current_state[1:])
         new_state.append(next_item)
         self.current_state = tuple(new_state)
