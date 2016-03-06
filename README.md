@@ -1,5 +1,5 @@
 # python-markov
-Python Markov is a simple interface in python to create and use Markov Chains. The simple markov chain, and performat markov chain are designed to be used with any data type, the string one works only on strings.
+Python Markov is a simple interface in python to create and use Markov Chains. The simple markov chain, and performat markov chain are designed to be used with any data type, the string one works only on strings. The constructors for all markov classes in this package take any iterable item, this means parsing the text is up to you. It also means these models will work with musical notes, pixel colors, dance moves, whatever. You just have to make it iterable.
 
 ## Syntax
 The content inside the chain is stored as tuples. When you create a chain you need to specify how long you want each node in the chain to be. The longer the chain the more the text will reflect the source text.
@@ -24,9 +24,11 @@ chain[('a','b')]
 #>>> throws a TypeError
 ```
 
-All of these markov chains implement `__iter__`, so you can generate theoretically infinite chains. I say theoretically, as it depends on the datasource you're using.
+All of these markov chains implement `__iter__`, so you can generate theoretically infinite chains. I say theoretically, as it depends on the datasource you're using. Before iterating you have to set the starting state.
 
 ```python
+
+chain.random_state() # Selects a random start point. You can specify with set_state()
 # this prints out a sequence of items in the chain that can last forever. (be careful)
 for item in chain:
     print(item)
