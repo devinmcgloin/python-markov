@@ -1,14 +1,15 @@
 import random as r
 import toolz
-
+from markov.probability.probabilities import get_probabilites
+from markov.probability.windows import get_windows
 
 class markov_perf:
     """Performant Markov change to be used with large datasets"""
 
     def __init__(self, iterable, step_size=1):
-        iterator = iter(iterable)
-        current_window = []
-        self.chain = {}
+        windows = get_windows(iter(iterable), step_size)
+        self.chain = get_probabilites(windows)
+        self.current_state = r.choice(list(self.probabilities.keys()))
 
     def __str__(self):
         """Display Chain Structure"""
@@ -23,6 +24,7 @@ class markov_perf:
 
     def __getitem__(self, key):
         """Gets the next prediction given the input key"""
+        # todo
         if key not in self.chain.keys():
             raise KeyError("Item is not found in this chain")
 
@@ -31,6 +33,7 @@ class markov_perf:
         return self
 
     def __next__(self):
+        # todo
         try:
             next_item = self[self.current_state]
         except KeyError:
@@ -41,6 +44,7 @@ class markov_perf:
         return item in self.chain.keys()
 
     def set_state(self, state):
+        # todo
         """Defines the seed to be used while iterating over the chain. Seed only determines the start value,
         not the subsequent values."""
         self.current_state = state

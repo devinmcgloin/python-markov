@@ -1,30 +1,13 @@
 import random as r
 import toolz
-
+from markov.probability.windows import get_windows
 
 class markov_chain:
     """Simple Markov Chain designed for small datasets and experimentation"""
 
     def __init__(self, iterable, step_size=1):
-        iterator = iter(iterable)
-        current_window = []
-        self.chain = {}
         self.step_size = step_size
-        for i in range(step_size):
-            current_window.append(next(iterator))
-        next_item = next(iterator)
-        while True:
-            window = tuple(current_window)
-            if window in self.chain.keys():
-                self.chain[window].append(next_item)
-            else:
-                self.chain[tuple(current_window)] = [next_item]
-            current_window.pop(0)
-            current_window.append(next_item)
-            try:
-                next_item = next(iterator)
-            except StopIteration:
-                break
+        self.chain = get_windows(iter(iterable), step_size)
         self.current_state = r.choice(list(self.chain.keys()))
 
     def __str__(self):
@@ -75,8 +58,8 @@ class markov_chain:
         return item in self.chain.keys()
 
     def set_state(self, state):
-        """Defines the seed to be used while iterating over the chain. Seed only determines the start value,
-        not the subsequent values."""
+        """Defines the seed to be used while iterating over the chain. 
+        Seed only determines the start value, not the subsequent values."""
         self.current_state = state
 
     def random_state(self):
