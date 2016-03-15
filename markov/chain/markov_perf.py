@@ -7,9 +7,10 @@ class markov_perf:
     """Performant Markov change to be used with large datasets"""
 
     def __init__(self, iterable, step_size=1):
+        self.step_size = step_size
         windows = get_windows(iter(iterable), step_size)
         self.chain = get_probabilites(windows)
-        self.current_state = r.choice(list(self.probabilities.keys()))
+        self.current_state = r.choice(list(self.chain.keys()))
 
     def __str__(self):
         """Display Chain Structure"""
@@ -24,29 +25,45 @@ class markov_perf:
 
     def __getitem__(self, key):
         """Gets the next prediction given the input key"""
-        # todo
+        if len(key) != self.step_size or not isinstance(key, tuple):
+            raise TypeError("Type must be of the same length as step_size and must be a tuple")
         if key not in self.chain.keys():
             raise KeyError("Item is not found in this chain")
+        options = self.chain[key]
+        choice = r.random()
+        for opt in options:
+            if opt[1] > choice:
+                return opt[0]
+            else:
+                choice = choice - opt[1]
 
     def __iter__(self):
         """Iterates over the chain yeilding values based on seed"""
         return self
 
     def __next__(self):
-        # todo
         try:
             next_item = self[self.current_state]
         except KeyError:
             raise StopIteration
+        new_state = list(self.current_state[1:])
+        new_state.append(next_item)
+        self.current_state = tuple(new_state)
+        return next_item
+
+
 
     def __contains__(self, item):
         """"Returns true if item is a link in the chain"""
         return item in self.chain.keys()
 
     def set_state(self, state):
-        # todo
         """Defines the seed to be used while iterating over the chain. Seed only determines the start value,
         not the subsequent values."""
+        if len(key) != self.step_size or not isinstance(key, tuple):
+            raise TypeError("Type must be of the same length as step_size and must be a tuple")
+        if key not in self.chain.keys():
+            raise KeyError("Item is not found in this chain")
         self.current_state = state
 
     def random_state(self):
@@ -58,10 +75,12 @@ class markov_perf:
         return list(toolz.itertoolz.take(n, self))
 
     def write_to_disk(self, path):
+        # todo
         """Takes file path and writes to file"""
         pass
 
     def read_from_disk(self, path):
+        # todo
         """Takes file path and reads in to the chain.
         Overwrites content currently in the chain"""
         pass

@@ -58,8 +58,12 @@ class markov_chain:
         return item in self.chain.keys()
 
     def set_state(self, state):
-        """Defines the seed to be used while iterating over the chain. 
+        """Defines the seed to be used while iterating over the chain.
         Seed only determines the start value, not the subsequent values."""
+        if len(key) != self.step_size or not isinstance(key, tuple):
+            raise TypeError("Type must be of the same length as step_size and must be a tuple")
+        if key not in self.chain.keys():
+            raise KeyError("Item is not found in this chain")
         self.current_state = state
 
     def random_state(self):
