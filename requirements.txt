@@ -1,2 +1,3 @@
+jsonpickle==0.9.3
 pylev==1.3.0
 toolz==0.7.4

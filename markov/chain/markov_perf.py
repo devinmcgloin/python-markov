@@ -2,6 +2,8 @@ import random as r
 import toolz
 from markov.probability.probabilities import get_probabilites
 from markov.probability.windows import get_windows
+import jsonpickle
+
 
 class markov_perf:
     """Performant Markov change to be used with large datasets"""
@@ -12,11 +14,17 @@ class markov_perf:
         self.chain = get_probabilites(windows)
         self.current_state = r.choice(list(self.chain.keys()))
 
+    def __init__(self, step_size, current_state, chain):
+        self.step_size = step_size
+        self.current_state = current_state
+        self.chain = chain
+
     def __str__(self):
         """Display Chain Structure"""
         string = ""
         for key, val in self.chain.items():
-            string += "{key:-<40}{val:->40} \n".format(key=str(key), val=str(val))
+            string += "{key:-<40}{val:->40} \n".format(
+                key=str(key), val=str(val))
         return string
 
     def __len__(self):
@@ -26,7 +34,8 @@ class markov_perf:
     def __getitem__(self, key):
         """Gets the next prediction given the input key"""
         if len(key) != self.step_size or not isinstance(key, tuple):
-            raise TypeError("Type must be of the same length as step_size and must be a tuple")
+            raise TypeError(
+                "Type must be of the same length as step_size and must be a tuple")
         if key not in self.chain.keys():
             raise KeyError("Item is not found in this chain")
         options = self.chain[key]
@@ -51,8 +60,6 @@ class markov_perf:
         self.current_state = tuple(new_state)
         return next_item
 
-
-
     def __contains__(self, item):
         """"Returns true if item is a link in the chain"""
         return item in self.chain.keys()
@@ -61,7 +68,8 @@ class markov_perf:
         """Defines the seed to be used while iterating over the chain. Seed only determines the start value,
         not the subsequent values."""
         if len(key) != self.step_size or not isinstance(key, tuple):
-            raise TypeError("Type must be of the same length as step_size and must be a tuple")
+            raise TypeError(
+                "Type must be of the same length as step_size and must be a tuple")
         if key not in self.chain.keys():
             raise KeyError("Item is not found in this chain")
         self.current_state = state
@@ -73,15 +81,4 @@ class markov_perf:
 
     def predict(self, n):
         return list(toolz.itertoolz.take(n, self))
-
-    def write_to_disk(self, path):
-        # todo
-        """Takes file path and writes to file"""
-        pass
-
-    def read_from_disk(self, path):
-        # todo
-        """Takes file path and reads in to the chain.
-        Overwrites content currently in the chain"""
-        pass
 

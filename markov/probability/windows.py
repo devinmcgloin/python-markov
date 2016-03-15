@@ -4,7 +4,6 @@ def get_windows(iterator, step_size):
     """Given an iterator get windows calculates
     tuples of size step_size, and pairs them with
     the next item in a dictionary """
-    print(step_size, iterator)
     current_window = []
     counts = {}
     for i in range(step_size):
